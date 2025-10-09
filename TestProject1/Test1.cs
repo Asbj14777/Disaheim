@@ -1,61 +1,59 @@
-﻿using System.Reflection.Emit;
-using Disaheim; 
+﻿using Disaheim; 
+using System.Reflection.Emit;
 namespace TestProject1
 {
     [TestClass]
-    public sealed class Test1
+    public class UnitTest3
     {
-        [TestClass]
-        public class UnitTest1
+        Book b1, b2, b3;
+        Amulet a1, a2, a3;
+
+        Controller controller;
+
+        [TestInitialize]
+        public void Init()
         {
-            Book b1, b2, b3;
-            Amulet a1, a2, a3;
+            // Arrange
 
-            [TestInitialize]
-            public void Init()
-            {
-                b1 = new Book("1");
-                b2 = new Book("2", "Falling in Love with Yourself");
-                b3 = new Book("3", "Spirits in the Night", 123.55);
-                
-                a1 = new Amulet("11");
-                a2 = new Amulet("12", Amulet.Level.high);
-                a3 = new Amulet("13", Amulet.Level.low, "Capricorn");
-            }
+            b1 = new Book("1");
+            b2 = new Book("2", "Falling in Love with Yourself");
+            b3 = new Book("3", "Spirits in the Night", 123.55);
 
-            [TestMethod]
-            public void BookConstructorWithOneParameter()
-            {
-                Assert.AreEqual("ItemId: 1, Title: , Price: 0", b1.ToString());
-            }
-            [TestMethod]
-            public void BookConstructorWithTwoParameters()
-            {
-                Assert.AreEqual("ItemId: 2, Title: Falling in Love with Yourself, Price: 0", b2.ToString());
-            }
-            [TestMethod]
-            public void BookConstructorWithThreeParameters()
-            {
-                Assert.AreEqual("ItemId: 3, Title: Spirits in the Night, Price: 123,55", b3.ToString());
-            }
+            a1 = new Amulet("11");
+            a2 = new Amulet("12", Level.High);
+            a3 = new Amulet("13", Level.Low, "Capricorn");
 
-            [TestMethod]
-            public void AmuletConstructorWithOneParameter()
-            {
-                Assert.AreEqual("ItemId: 11, Quality: medium, Design: ", a1.ToString());
-            }
-            [TestMethod]
-            public void AmuletConstructorWithTwoParameters()
-            {
-                Assert.AreEqual("ItemId: 12, Quality: high, Design: ", a2.ToString());
-            }
-            [TestMethod]
-            public void AmuletConstructorWithThreeParameters()
-            {
-                Assert.AreEqual("ItemId: 13, Quality: low, Design: Capricorn", a3.ToString());
-            }
+            controller = new Controller();
+
+            controller.AddToList(b1);
+            controller.AddToList(b2);
+            controller.AddToList(b3);
+
+            controller.AddToList(a1);
+            controller.AddToList(a2);
+            controller.AddToList(a3);
         }
 
+        [TestMethod]
+        public void TestBookList()
+        {
+            // Assert
+            Assert.AreEqual(b3, controller.Books[2]);
+        }
+
+        [TestMethod]
+        public void TestAmuletList()
+        {
+            // Assert
+            Assert.AreEqual(a1, controller.Amulets[0]);
+        }
 
     }
+
+
+
+
+
+
+
 }

@@ -14,10 +14,10 @@ namespace Disaheim
         {
             double value = amulet.Quality switch
             {
-                Amulet.Level.low => 12.5,
-                Amulet.Level.medium => 20.0,
-                Amulet.Level.high => 27.5,
-                _ => 0.0
+                Level.Low       =>    12.5,
+                Level.Medium    =>    20.0,
+                Level.High      =>    27.5,
+                /*ingen*/     _ =>    0.0
             };
             return value; 
         }

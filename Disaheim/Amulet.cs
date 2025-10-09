@@ -6,17 +6,18 @@ using System.Threading.Tasks;
 
 namespace Disaheim
 {
+    public enum Level
+    {
+        Low,
+        Medium,
+        High
+    }
     public class Amulet
     {
-        public enum Level
-        {
-            low,
-            medium,
-            high
-        }
-        public string ItemId { get; set; }  
-        public string Design { get; set; }
-        Level Quality { get; set; }
+    
+        public string ItemId { get; private set; }  
+        public string Design { get; private set; }
+        public Level Quality { get; private set; }
 
         public Amulet(string itemId, Level quality, string design)
         {
@@ -24,8 +25,8 @@ namespace Disaheim
             Design = design;
             Quality = quality;
         }   
-        public Amulet(string itemId, Level quality) : this(itemId, Level.high, "") { }
-        public Amulet(string itemId) : this(itemId, Level.medium, "") { }
+        public Amulet(string itemId, Level quality) : this(itemId, Level.High, "") { }
+        public Amulet(string itemId) : this(itemId, Level.Medium, "") { }
         public override string ToString() => $"ItemId: {ItemId}, Quality: {Quality}, Design: {Design}"; 
      
     }
