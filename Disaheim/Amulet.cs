@@ -12,14 +12,12 @@ namespace Disaheim
         Medium,
         High
     }
-    public class Amulet
+    public class Amulet : Merchandise
     {
-    
-        public string ItemId { get; private set; }  
-        public string Design { get; private set; }
-        public Level Quality { get; private set; }
+        public string Design { get; set; }
+        public Level Quality { get; set; }
 
-        public Amulet(string itemId, Level quality, string design)
+        public Amulet(string itemId, Level quality, string design) : base(itemId)
         {
             ItemId = itemId;
             Design = design;
