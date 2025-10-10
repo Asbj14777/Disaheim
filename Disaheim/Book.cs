@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Disaheim
 {
-    public class Book
+    public class Book : Merchandise
     {
-        public string ItemId { get; set; }  
+       
         public string Title { get; set; }   
         public double Price { get; set; }
-        public override string ToString() => $"ItemId: {this.ItemId}, Title: {Title}, Price: {Price}";
+        public override string ToString() => $"ItemId: {ItemId}, Title: {Title}, Price: {Price}";
      
-        public Book(string itemId, string title, double price)
+        public Book(string itemId, string title, double price) : base(itemId)
         {
             ItemId = itemId;
             Title = title;
