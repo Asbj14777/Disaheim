@@ -15,9 +15,9 @@ namespace UtilityLib
         {
             double value = amulet.Quality switch
             {
-                Level.Low => 12.5,
-                Level.Medium => 20.0,
-                Level.High => 27.5,
+                Level.Low => Amulet.low,
+                Level.Medium => Amulet.medium,
+                Level.High => Amulet.high,
                 _ => 0.0
             };
             return value;
