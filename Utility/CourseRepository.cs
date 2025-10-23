@@ -9,15 +9,16 @@ namespace Utility
 {
     public class CourseRepository
     {
-        private Controller Controller { get; set; } = new Controller();
-        public void AddCourse(Controller controller, Course course) => controller.AddToList(course);
+        public readonly List<Course> Courses = new();
+        public void AddToList(Course course) => Courses.Add(course);
+        public void AddCourse(Course course) => AddToList(course);
 
-        public Course GetCourse(string itemId) => Controller.Courses.FirstOrDefault(b => b.ItemId == itemId);
+        public Course GetCourse(string itemId) => Courses.FirstOrDefault(b => b.Name == itemId);
 
-        public double GetTotalPrice()
+        public double GetTotalValue()
         {
             double total = 0;
-            foreach (var course in Controller.Courses)
+            foreach (var course in Courses)
                 total += UtilityLib.Utility.GetValueOfCourse(course);
             return total;
         }

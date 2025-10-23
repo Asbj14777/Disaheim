@@ -9,15 +9,17 @@ namespace Utility
 {
     public class AmuletRepository
     {
-        private Controller Controller { get; set; } = new Controller();
-        public void AddAmulet(Controller controller, Amulet amulet) => controller.AddToList(amulet);
+        public readonly List<Amulet> Amulets = new();
 
-        public Amulet GetAmulet(string itemId) => Controller.Amulets.FirstOrDefault(b => b.ItemId == itemId);
+        public void AddToList(Amulet amulet) => Amulets.Add(amulet);
+        public void AddAmulet(Amulet amulet) => AddToList(amulet);
 
-        public double GetTotalPrice()
+        public Amulet GetAmulet(string itemId) => Amulets.FirstOrDefault(b => b.ItemId == itemId);
+
+        public double GetTotalValue()
         {
             double total = 0;
-            foreach (var amulet in Controller.Amulets)
+            foreach (var amulet in Amulets)
                 total += UtilityLib.Utility.GetValueOfAmulet(amulet);
             return total;
         }
