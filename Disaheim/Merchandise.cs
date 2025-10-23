@@ -10,7 +10,6 @@ namespace Disaheim
     {
         public string ItemId { get; set; }
 
-
         public Merchandise(string itemId)
         {
             ItemId = itemId;
@@ -19,9 +18,6 @@ namespace Disaheim
         public override string ToString()
         {
             return $"ItemId: {ItemId}"; 
-        }
-
-
-
+        } 
     }
 }

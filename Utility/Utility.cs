@@ -18,7 +18,6 @@ namespace UtilityLib
                 Level.Low => 12.5,
                 Level.Medium => 20.0,
                 Level.High => 27.5,
-                /*ingen*/
                 _ => 0.0
             };
             return value;

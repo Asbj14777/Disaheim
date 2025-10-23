@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace Disaheim
 {
-    public class Course
+    public class Course : Merchandise
     {
         public string Name { get; set; }    
         public int DurationInMinutes { get; set; }  
-        public Course(string name, int durationInMinutes)
+
+        public Course(string name, int durationInMinutes) : base(name) 
         {
             Name = name;
             DurationInMinutes = durationInMinutes;
