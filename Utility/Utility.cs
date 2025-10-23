@@ -11,7 +11,11 @@ namespace UtilityLib
 {
     public double GetValueOfBook(Book book) => book.Price;
 
-    public double GetValueOfAmulet(Amulet amulet)
+
+
+
+
+    public static double GetValueOfAmulet(Amulet amulet)
     {
         double value = amulet.Quality switch
         {
