@@ -1,22 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Disaheim;
 
-namespace Disaheim
+public class Course : Merchandise
 {
-    public class Course : Merchandise
-    {
-        public string Name { get; set; }    
-        public int DurationInMinutes { get; set; }  
+    public static double CourseHourValue { get; set; } = 875;
+    public string CourseName { get; set; }
+    public int DurationInMinutes { get; set; }
 
-        public Course(string name, int durationInMinutes) : base(name) 
-        {
-            Name = name;
-            DurationInMinutes = durationInMinutes;
-        }
-        public Course(string name) : this(name, 0) { } 
-        public override string ToString() => $"Name: {Name}, Duration in Minutes: {DurationInMinutes}";   
+    public Course(string courseName) : base(courseName)
+    {
+        CourseName = courseName;
+    }
+
+    public Course(string courseName, int hours) : base(courseName)
+    {
+        CourseName = courseName;
+        DurationInMinutes = hours;
+    }
+
+    public Course(string courseName, int hours, double value, string itemId) : base(itemId)
+    {
+        CourseName = courseName;
+        DurationInMinutes = hours;
+    }
+
+    public double GetValue()
+    {
+        double value = 0.0;
+        for (int i = 0; i < DurationInMinutes; i += 60)
+            value += CourseHourValue;
+        return value;
+    }
+
+    public override string ToString()
+    {
+        return $"Name: {CourseName}, Duration: {DurationInMinutes}, Value: {GetValue()}";
     }
 }

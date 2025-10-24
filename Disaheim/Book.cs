@@ -1,27 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Disaheim;
 
-namespace Disaheim
+public class Book : Merchandise
 {
-    public class Book : Merchandise
+    public string Title { get; set; } = "";
+    public double Price { get; set; }
+
+    public Book(string itemID) : base(itemID) { }
+
+    public Book(string itemID, string title) : base(itemID)
     {
-       
-        public string Title { get; set; }   
-        public double Price { get; set; }
-        public override string ToString() => $"ItemId: {ItemId}, Title: {Title}, Price: {Price}";
-     
-        public Book(string itemId, string title, double price) : base(itemId)
-        {
-            ItemId = itemId;
-            Title = title;
-            Price = price;
-        }
+        Title = title;
+    }
 
+    public Book(string itemID, string title, double price) : base(itemID)
+    {
+        Title = title;
+        Price = price;
+    }
 
-        public Book(string itemId, string title) : this(itemId, title, 0) { } 
-        public Book(string itemId) : this(itemId, "", 0){}
+    public double GetValue() => Price;
+
+    public override string ToString()
+    {
+        return $"ItemId: {ItemID}, Title: {Title}, Price: {Price}";
     }
 }

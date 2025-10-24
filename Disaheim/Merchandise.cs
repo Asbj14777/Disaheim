@@ -1,23 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Disaheim
+﻿namespace Disaheim
 {
+    public enum Level { Low, Medium, High }
     public class Merchandise
     {
-        public string ItemId { get; set; }
+        public string ItemID { get; set; }
 
-        public Merchandise(string itemId)
+        public Merchandise() { }
+
+        public Merchandise(string itemID)
         {
-            ItemId = itemId;
+            ItemID = itemID;
         }
-
-        public override string ToString()
-        {
-            return $"ItemId: {ItemId}"; 
-        } 
     }
 }

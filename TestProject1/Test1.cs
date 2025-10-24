@@ -1,97 +1,99 @@
 ﻿using Disaheim;
 using Utility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 [TestClass]
-public class UnitTest4
+public class UnitTest6
 {
-    Merchandise c1, c2, b1, b2, b3, a1, a2, a3;
-
-    MerchandiseRepository<Book> bookRepo;
-    MerchandiseRepository<Amulet> amuletRepo;
-    MerchandiseRepository<Course> courseRepo;
+    Book b1, b2, b3;
+    Amulet a1, a2, a3;
+    Course c1, c2;
+    ValuableRepository vr1, vr2;
 
     [TestInitialize]
     public void Init()
     {
-        // Arrange — create items
-        // Books
-        b1 = new Book("1", "Unknown Book", 0.0);
-        b2 = new Book("2", "Falling in Love with Yourself", 0.0);
-        b3 = new Book("3", "Spirits in the Night", 123.55);
+        b1 = new Book("No. B1");
+        b2 = new Book("No. B2", "Falling in Love with Yourself");
+        b3 = new Book("No. B3", "Spirits in the Night", 123.55);
+        a1 = new Amulet("No. A1");
+        a2 = new Amulet("No. A2", Level.High);
+        a3 = new Amulet("No. A3", Level.Low, "Modern");
+        c1 = new Course("Basis kursus");
+        c2 = new Course("Kursus 2", 128);
 
-        // Amulets
-        a1 = new Amulet("11");
-        a2 = new Amulet("12", Level.High);
-        a3 = new Amulet("13", Level.Low, "Capricorn");
+        vr1 = new ValuableRepository();
+        vr1.AddValuable(b1);
+        vr1.AddValuable(a1);
+        vr1.AddValuable(b2);
+        vr1.AddValuable(a3);
+        vr1.AddValuable(c1);
+        vr1.AddValuable(b3);
+        vr1.AddValuable(a2);
+        vr1.AddValuable(c2);
 
-        // Courses
-        c1 = new Course("Eufori med røg");
-        c2 = new Course("Nuru Massage using Chia Oil", 157);
+        vr2 = new ValuableRepository();
 
-        // Create repositories
-        bookRepo = new MerchandiseRepository<Book>();
-        amuletRepo = new MerchandiseRepository<Amulet>();
-        courseRepo = new MerchandiseRepository<Course>();
-
-        // Act — add all items to the correct repository
-        bookRepo.AddMerchandise((Book)b1);
-        bookRepo.AddMerchandise((Book)b2);
-        bookRepo.AddMerchandise((Book)b3);
-
-        amuletRepo.AddMerchandise((Amulet)a1);
-        amuletRepo.AddMerchandise((Amulet)a2);
-        amuletRepo.AddMerchandise((Amulet)a3);
-
-        courseRepo.AddMerchandise((Course)c1);
-        courseRepo.AddMerchandise((Course)c2);
+        if (File.Exists("ValuableRepository.txt"))
+        {
+            File.Delete("ValuableRepository.txt");
+        }
+        if (File.Exists("TestFile01.txt"))
+        {
+            File.Delete("TestFile01.txt");
+        }
+        if (File.Exists("TestFile02.txt"))
+        {
+            File.Delete("TestFile02.txt");
+        }
     }
 
     [TestMethod]
-    public void TestGetBook()
+    public void TestSave()
     {
-        // Assert
-        Assert.AreEqual(b2, bookRepo.GetMerchandise("2"));
+        vr1.Save("TestFile01.txt");
+        Assert.AreEqual(true, File.Exists("TestFile01.txt"));
     }
 
     [TestMethod]
-    public void TestGetAmulet()
+    public void TestLoadWithFileName()
     {
-        // Assert
-        Assert.AreEqual(a3, amuletRepo.GetMerchandise("13"));
+        vr1.Save("TestFile01.txt");
+        vr2.Load("TestFile01.txt");
+        int noOfElements = vr1.Count();
+        Assert.AreEqual(noOfElements, vr2.Count());
+        Assert.AreEqual(vr1.GetValuable("No. B2").ToString(), vr2.GetValuable("No. B2").ToString());
+        Assert.AreEqual(vr1.GetValuable("No. B1").ToString(), vr2.GetValuable("No. B1").ToString());
+        Assert.AreEqual(vr1.GetValuable("No. B3").ToString(), vr2.GetValuable("No. B3").ToString());
+
+        Assert.AreEqual(vr1.GetValuable("Basis kursus").ToString(),
+         vr2.GetValuable("Basis kursus").ToString());
+        Assert.AreEqual(vr1.GetValuable("Kursus 2").ToString(), vr2.GetValuable("Kursus 2").ToString());
+
+        Assert.AreEqual(vr1.GetValuable("No. A3").ToString(), vr2.GetValuable("No. A3").ToString());
+        Assert.AreEqual(vr1.GetValuable("No. A1").ToString(), vr2.GetValuable("No. A1").ToString());
+        Assert.AreEqual(vr1.GetValuable("No. A2").ToString(), vr2.GetValuable("No. A2").ToString());
     }
 
-    [TestMethod]
-    public void TestGetCourse()
-    {
-        // Assert
-        Assert.AreEqual(c1, courseRepo.GetMerchandise("Eufori med røg"));
-    }
 
     [TestMethod]
-    public void TestGetTotalValueForBook()
+    public void TestLoadWithDefaultFile()
     {
-        // Assert
-        double expected = 123.55;
-        double actual = bookRepo.GetTotalValue(b => b.Price);
-        Assert.AreEqual(expected, actual);
-    }
+        vr1.Save();
+        vr2.Load();
+        int noOfElements = vr1.Count();
+        Assert.AreEqual(noOfElements, vr2.Count());
+        Assert.AreEqual(vr1.GetValuable("No. B2").ToString(), vr2.GetValuable("No. B2").ToString());
+        Assert.AreEqual(vr1.GetValuable("No. B1").ToString(), vr2.GetValuable("No. B1").ToString());
+        Assert.AreEqual(vr1.GetValuable("No. B3").ToString(),
+             vr2.GetValuable("No. B3").ToString());
 
-    [TestMethod]
-    public void TestGetTotalValueForAmulet()
-    {
-        // Assert
-        double expected = 60.0;
-        double actual = amuletRepo.GetTotalValue(a => UtilityLib.Utility.GetValueOfAmulet(a));
-        Assert.AreEqual(expected, actual);
-    }
+        Assert.AreEqual(vr1.GetValuable("Basis kursus").ToString(),
+         vr2.GetValuable("Basis kursus").ToString());
+        Assert.AreEqual(vr1.GetValuable("Kursus 2").ToString(), vr2.GetValuable("Kursus 2").ToString());
 
-    [TestMethod]
-    public void TestGetTotalValueForCourse()
-    {
-        // Assert
-        double expected = 2625.0;
-        double actual = courseRepo.GetTotalValue(c => UtilityLib.Utility.GetValueOfCourse(c));
-        Assert.AreEqual(expected, actual);
+        Assert.AreEqual(vr1.GetValuable("No. A3").ToString(), vr2.GetValuable("No. A3").ToString());
+        Assert.AreEqual(vr1.GetValuable("No. A1").ToString(), vr2.GetValuable("No. A1").ToString());
+        Assert.AreEqual(vr1.GetValuable("No. A2").ToString(), vr2.GetValuable("No. A2").ToString());
     }
 }
+
