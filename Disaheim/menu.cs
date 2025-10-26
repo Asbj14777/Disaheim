@@ -6,7 +6,6 @@ namespace DisaheimMenu
 {
     public class Menu
     {
-        #region Nested Classes
         public class MenuOption
         {
             public string Name { get; set; }
@@ -20,24 +19,18 @@ namespace DisaheimMenu
                 SubMenu = submenu;
             }
         }
-        #endregion
 
-        #region Fields & Properties
         public string Title { get; set; }
         public List<MenuOption> Options { get; private set; } = new List<MenuOption>();
         public Menu ParentMenu { get; set; }
 
         private const int VisibleHeight = 10;
-        #endregion
 
-        #region Constructors
         public Menu(string title)
         {
             Title = title;
         }
-        #endregion
 
-        #region Public Methods
         public void AddOption(string name, Action action = null, Menu submenu = null)
         {
             if (submenu != null)
@@ -60,12 +53,16 @@ namespace DisaheimMenu
                     selectedIndex = (selectedIndex - 1 + Options.Count) % Options.Count;
                     if (selectedIndex < topIndex)
                         topIndex = selectedIndex;
+                    else if (selectedIndex == Options.Count - 1)
+                        topIndex = Math.Max(0, Options.Count - VisibleHeight);
                 }
                 else if (key == ConsoleKey.DownArrow)
                 {
                     selectedIndex = (selectedIndex + 1) % Options.Count;
                     if (selectedIndex >= topIndex + VisibleHeight)
                         topIndex = selectedIndex - VisibleHeight + 1;
+                    else if (selectedIndex == 0)
+                        topIndex = 0;
                 }
                 else if (key == ConsoleKey.Enter)
                 {
@@ -83,22 +80,6 @@ namespace DisaheimMenu
             }
         }
 
-        public static void ShowMessage(string text)
-        {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.DarkCyan;
-            foreach (char c in text)
-            {
-                Console.Write(c);
-                Thread.Sleep(15);
-            }
-            Console.ResetColor();
-            Console.WriteLine("\n\nPress any key to return...");
-            Console.ReadKey(true);
-        }
-        #endregion
-
-        #region Private Methods
         private ConsoleKey ReadKey()
         {
             while (!Console.KeyAvailable)
@@ -110,17 +91,18 @@ namespace DisaheimMenu
         {
             Console.Clear();
             int consoleWidth = 60;
-            int menuHeight = VisibleHeight + 12;
+            int consoleHeight = 25;
             int startX = (Console.WindowWidth - consoleWidth) / 2;
-            int startY = (Console.WindowHeight - menuHeight) / 2;
+            int startY = (Console.WindowHeight - (VisibleHeight + 12)) / 2;
 
-            DrawBorder(startX, startY, consoleWidth, menuHeight);
+            DrawBorder(startX, startY, consoleWidth);
             DrawTitle(startX, startY, consoleWidth);
 
             Console.SetCursorPosition(startX + 2, startY + 4);
             Console.ForegroundColor = ConsoleColor.DarkCyan;
-            Console.WriteLine(GetBreadcrumb().PadRight(consoleWidth - 4));
+            Console.WriteLine(GetBreadcrumb());
             Console.ResetColor();
+            Console.WriteLine();
 
             Console.SetCursorPosition(startX + 1, startY + 5);
             Console.ForegroundColor = ConsoleColor.DarkGray;
@@ -164,19 +146,19 @@ namespace DisaheimMenu
             Console.ResetColor();
         }
 
-        private void DrawBorder(int startX, int startY, int width, int height)
+        private void DrawBorder(int startX, int startY, int width)
         {
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.SetCursorPosition(startX, startY);
             Console.Write("╔" + new string('═', width - 2) + "╗");
 
-            for (int i = 1; i < height - 1; i++)
+            for (int i = 1; i <= VisibleHeight + 10; i++)
             {
                 Console.SetCursorPosition(startX, startY + i);
                 Console.Write("║" + new string(' ', width - 2) + "║");
             }
 
-            Console.SetCursorPosition(startX, startY + height - 1);
+            Console.SetCursorPosition(startX, startY + VisibleHeight + 11);
             Console.Write("╚" + new string('═', width - 2) + "╝");
             Console.ResetColor();
         }
@@ -202,6 +184,19 @@ namespace DisaheimMenu
             }
             return string.Join(" > ", names);
         }
-        #endregion
+
+        public static void ShowMessage(string text)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            foreach (char c in text)
+            {
+                Console.Write(c);
+                Thread.Sleep(15);
+            }
+            Console.ResetColor();
+            Console.WriteLine("\n\nPress any key to return...");
+            Console.ReadKey(true);
+        }
     }
 }
