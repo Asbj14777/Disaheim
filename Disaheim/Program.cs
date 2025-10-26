@@ -1,20 +1,34 @@
-﻿using Disaheim;
-
-using System; 
-class Program
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Threading;
+using DisaheimMenu; 
+namespace Disaheim
 {
-    static void Main(string[] args)
+    class Program
     {
-        Merchandise merchandise = new Merchandise();
-       
-        Book book = new Book("001", "The Great Adventure", 19.99);
-        Amulet amulet = new Amulet("A001", Level.High, "Dragon Design");
-        System.Console.WriteLine($"{amulet.ToString()}");
-        System.Console.WriteLine($"{book.ToString()}"); 
-        Console.ReadKey();
+  
+        static void Main(string[] args)
+        {
+            Menu mainMenu = new Menu("Main Menu");
+            Menu settingsMenu = new Menu("Settings");
 
+            mainMenu.AddOption("Start", () => Menu.ShowMessage("Starting..."));
+            mainMenu.AddOption("Settings", submenu: settingsMenu);
+            mainMenu.AddOption("About", () => Menu.ShowMessage("Console Menu System"));
+            mainMenu.AddOption("Exit", () => Environment.Exit(0));
 
+            settingsMenu.AddOption("Display", () => Menu.ShowMessage("Display settings here"));
+            settingsMenu.AddOption("Network", () => Menu.ShowMessage("Network settings here"));
+            settingsMenu.AddOption("Audio", () => Menu.ShowMessage("Audio settings here")); 
+            for (int i = 1; i <= 10; i++)
+                mainMenu.AddOption($"Extra Option {i}", () => 
+                Menu.ShowMessage($"Selected Extra Option {i}")
+             );
 
         
+
+            mainMenu.ShowMenu();
+        }
     }
 }

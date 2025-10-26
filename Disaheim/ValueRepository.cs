@@ -71,18 +71,17 @@ namespace Utility
 
         public void Load(string filename = "ValuableRepository.txt")
         {
-
-            string[] lines = File.ReadAllLines(filename);
-
-            foreach (var line in lines)
+            _items.Clear();
+            foreach (var line in File.ReadLines(filename))
             {
+                if (string.IsNullOrWhiteSpace(line)) continue;
                 string[] parts = line.Split(';');
-                if (parts.Length == 0) continue;
 
                 switch (parts[0])
                 {
                     case "BOG":
-                        _items.Add(new Book(parts[1], parts[2], double.Parse(parts[3])));
+                        if (parts.Length >= 4)
+                            _items.Add(new Book(parts[1], parts[2], double.Parse(parts[3])));
                         break;
 
                     case "AMULET":

@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Disaheim\Disaheim.csproj" />
-    <ProjectReference Include="..\Utility\Utility.csproj" />
   </ItemGroup>
 
   <ItemGroup>
