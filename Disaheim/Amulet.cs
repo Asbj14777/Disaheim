@@ -1,31 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Disaheim;
+using System.Reflection.Emit;
 
-namespace Disaheim
+public class Amulet : Merchandise
 {
-    public enum Level
-    {
-        Low,
-        Medium,
-        High
-    }
-    public class Amulet : Merchandise
-    {
-        public string Design { get; set; }
-        public Level Quality { get; set; }
+    public Level Quality { get; set; } = Level.Medium;
+    public string Design { get; set; } = "";
 
-        public Amulet(string itemId, Level quality, string design) : base(itemId)
+    public Amulet(string itemID) : base(itemID) { }
+
+    public Amulet(string itemID, Level quality) : base(itemID)
+    {
+        Quality = quality;
+    }
+
+    public Amulet(string itemID, Level quality, string design) : base(itemID)
+    {
+        Quality = quality;
+        Design = design;
+    }
+
+    public double GetValue()
+    {
+        return Quality switch
         {
-            ItemId = itemId;
-            Design = design;
-            Quality = quality;
-        }   
-        public Amulet(string itemId, Level quality) : this(itemId, Level.High, "") { }
-        public Amulet(string itemId) : this(itemId, Level.Medium, "") { }
-        public override string ToString() => $"ItemId: {ItemId}, Quality: {Quality}, Design: {Design}"; 
-     
+            Level.Low => 12.5,
+            Level.Medium => 20.0,
+            Level.High => 27.5,
+            _ => 0.0
+        };
+    }
+
+    public override string ToString()
+    {
+        return $"ItemId: {ItemID}, Quality: {Quality}, Design: {Design}";
     }
 }

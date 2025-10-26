@@ -1,236 +1,99 @@
 ﻿using Disaheim;
-using UtilityLib; 
-using System.Reflection.Emit;
-namespace TestProject1
+using Utility;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+[TestClass]
+public class UnitTest6
 {
-    [TestClass]
-    public class UnitTest3
+    Book b1, b2, b3;
+    Amulet a1, a2, a3;
+    Course c1, c2;
+    ValuableRepository vr1, vr2;
+
+    [TestInitialize]
+    public void Init()
     {
-        Book b1, b2, b3;
-        Amulet a1, a2, a3;
-        Course c1, c2, c3;
-        Controller controller;
-            
-        [TestInitialize]
-        public void Init()
+        b1 = new Book("No. B1");
+        b2 = new Book("No. B2", "Falling in Love with Yourself");
+        b3 = new Book("No. B3", "Spirits in the Night", 123.55);
+        a1 = new Amulet("No. A1");
+        a2 = new Amulet("No. A2", Level.High);
+        a3 = new Amulet("No. A3", Level.Low, "Modern");
+        c1 = new Course("Basis kursus");
+        c2 = new Course("Kursus 2", 128);
+
+        vr1 = new ValuableRepository();
+        vr1.AddValuable(b1);
+        vr1.AddValuable(a1);
+        vr1.AddValuable(b2);
+        vr1.AddValuable(a3);
+        vr1.AddValuable(c1);
+        vr1.AddValuable(b3);
+        vr1.AddValuable(a2);
+        vr1.AddValuable(c2);
+
+        vr2 = new ValuableRepository();
+
+        if (File.Exists("ValuableRepository.txt"))
         {
-            // Arrange
-
-            b1 = new Book("1");
-            b2 = new Book("2", "Falling in Love with Yourself");
-            b3 = new Book("3", "Spirits in the Night", 123.55);
-
-            a1 = new Amulet("11");
-            a2 = new Amulet("12", Level.High);
-            a3 = new Amulet("13", Level.Low, "Capricorn");
-
-            c1 = new Course("Spådomskunst for nybegyndere");
-
-            c2 = new Course("Magi – når videnskaben stopper", 157);
-
-            c3 = new Course("Et indblik i Helleristning", 180);
-
-            controller = new Controller();
-
-            controller.AddToList(b1);
-            controller.AddToList(b2);
-            controller.AddToList(b3);
-
-            controller.AddToList(a1);
-            controller.AddToList(a2);
-            controller.AddToList(a3);
-
-            controller.AddToList(c1);
-
-            controller.AddToList(c2);
-
-            controller.AddToList(c3);
+            File.Delete("ValuableRepository.txt");
         }
-
-        [TestMethod]
-        public void TestBookList()
+        if (File.Exists("TestFile01.txt"))
         {
-            // Assert
-            Assert.AreEqual(b3, controller.Books[2]);
+            File.Delete("TestFile01.txt");
         }
-
-        [TestMethod]
-        public void TestAmuletList()
+        if (File.Exists("TestFile02.txt"))
         {
-            // Assert
-            Assert.AreEqual(a1, controller.Amulets[0]);
+            File.Delete("TestFile02.txt");
         }
-        [TestMethod]
-
-        public void MerchandiseConstructorWorkProperly()
-
-        {
-
-            // Arrange
-
-            Merchandise m = new Merchandise("100");
-
-
-            // Assert
-
-            Assert.AreEqual("ItemId: 100", m.ToString());
-
-        }
-        [TestMethod]
-
-        public void CourseConstructorWithOneParameter()
-
-        {
-
-            // Assert
-
-            Assert.AreEqual("Name: Spådomskunst for nybegyndere, Duration in Minutes: 0", c1.ToString());
-
-        }
-
-        [TestMethod]
-
-        public void CourseConstructorWithTwoParameters1()
-
-        {
-
-            // Assert
-
-            Assert.AreEqual("Name: Magi – når videnskaben stopper, Duration in Minutes: 157", c2.ToString());
-
-        }
-
-        [TestMethod]
-
-        public void CourseConstructorWithTwoParameters2()
-
-        {
-
-            // Assert
-
-            Assert.AreEqual("Name: Et indblik i Helleristning, Duration in Minutes: 180", c3.ToString());
-
-        }
-
-
-        [TestMethod]
-
-        public void AmuletSetPropertiesWorks()
-
-        {
-
-            // Act
-
-            a3.ItemId = "X";
-
-            a3.Quality = Level.High;
-
-            a3.Design = "Dolphin";
-
-
-            // Assert
-
-            Assert.AreEqual("ItemId: X, Quality: High, Design: Dolphin", a3.ToString());
-
-        }
-
-        [TestMethod]
-
-        public void BookSetPropertiesWorks()
-
-        {
-
-            // Act
-
-            b3.ItemId = "Y";
-
-            b3.Title = "Smoke on the Water";
-
-            b3.Price = 376.45;
-
-
-            // Assert
-
-            Assert.AreEqual("ItemId: Y, Title: Smoke on the Water, Price: 376,45", b3.ToString());
-
-        }
-
-        [TestMethod]
-
-        public void CourseSetPropertiesWorks()
-
-        {
-
-            // Act
-
-            c2.Name = "How to Ying-Yang";
-
-            c2.DurationInMinutes = 413;
-
-
-            // Assert
-
-            Assert.AreEqual("Name: How to Ying-Yang, Duration in Minutes: 413", c2.ToString());
-
-        }
-        [TestMethod]
-
-        public void TestGetValueForCourse1()
-        {
-
-            // Assert
-          
-            
-            Assert.AreEqual(0.0, Utility.GetValueOfCourse(c1));
-
-        }
-
-        [TestMethod]
-
-        public void TestGetValueForCourse2()
-
-        {
-
-            // Assert
-
-            Assert.AreEqual(2625.0, Utility.GetValueOfCourse(c2));
-
-        }
-
-        [TestMethod]
-
-        public void TestGetValueForCourse3()
-
-        {
-
-            // Assert
-
-            Assert.AreEqual(2625.0, Utility.GetValueOfCourse(c3));
-
-        }
-
-        [TestMethod]
-
-        public void TestCourseList()
-
-        {
-
-            // Assert
-
-            Assert.AreEqual(c1, controller.Courses[0]);
-
-            Assert.AreEqual(c2, controller.Courses[1]);
-
-            Assert.AreEqual(c3, controller.Courses[2]);
-
-        }
-
+    }
+
+    [TestMethod]
+    public void TestSave()
+    {
+        vr1.Save("TestFile01.txt");
+        Assert.AreEqual(true, File.Exists("TestFile01.txt"));
+    }
+
+    [TestMethod]
+    public void TestLoadWithFileName()
+    {
+        vr1.Save("TestFile01.txt");
+        vr2.Load("TestFile01.txt");
+        int noOfElements = vr1.Count();
+        Assert.AreEqual(noOfElements, vr2.Count());
+        Assert.AreEqual(vr1.GetValuable("No. B2").ToString(), vr2.GetValuable("No. B2").ToString());
+        Assert.AreEqual(vr1.GetValuable("No. B1").ToString(), vr2.GetValuable("No. B1").ToString());
+        Assert.AreEqual(vr1.GetValuable("No. B3").ToString(), vr2.GetValuable("No. B3").ToString());
+
+        Assert.AreEqual(vr1.GetValuable("Basis kursus").ToString(),
+         vr2.GetValuable("Basis kursus").ToString());
+        Assert.AreEqual(vr1.GetValuable("Kursus 2").ToString(), vr2.GetValuable("Kursus 2").ToString());
+
+        Assert.AreEqual(vr1.GetValuable("No. A3").ToString(), vr2.GetValuable("No. A3").ToString());
+        Assert.AreEqual(vr1.GetValuable("No. A1").ToString(), vr2.GetValuable("No. A1").ToString());
+        Assert.AreEqual(vr1.GetValuable("No. A2").ToString(), vr2.GetValuable("No. A2").ToString());
     }
 
 
+    [TestMethod]
+    public void TestLoadWithDefaultFile()
+    {
+        vr1.Save();
+        vr2.Load();
+        int noOfElements = vr1.Count();
+        Assert.AreEqual(noOfElements, vr2.Count());
+        Assert.AreEqual(vr1.GetValuable("No. B2").ToString(), vr2.GetValuable("No. B2").ToString());
+        Assert.AreEqual(vr1.GetValuable("No. B1").ToString(), vr2.GetValuable("No. B1").ToString());
+        Assert.AreEqual(vr1.GetValuable("No. B3").ToString(),
+             vr2.GetValuable("No. B3").ToString());
 
+        Assert.AreEqual(vr1.GetValuable("Basis kursus").ToString(),
+         vr2.GetValuable("Basis kursus").ToString());
+        Assert.AreEqual(vr1.GetValuable("Kursus 2").ToString(), vr2.GetValuable("Kursus 2").ToString());
 
-
-
-
+        Assert.AreEqual(vr1.GetValuable("No. A3").ToString(), vr2.GetValuable("No. A3").ToString());
+        Assert.AreEqual(vr1.GetValuable("No. A1").ToString(), vr2.GetValuable("No. A1").ToString());
+        Assert.AreEqual(vr1.GetValuable("No. A2").ToString(), vr2.GetValuable("No. A2").ToString());
+    }
 }
+
