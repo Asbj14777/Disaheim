@@ -135,15 +135,22 @@ namespace DisaheimMenu
             Console.WriteLine(new string('═', consoleWidth - 2));
             Console.ResetColor();
 
+
             Console.SetCursorPosition(startX + 2, startY + VisibleHeight + 7);
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine($"Currently Selected : [{selectedIndex + 1} / {Options.Count}]".PadRight(consoleWidth - 4));
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("Console Output: ".PadRight(consoleWidth - 4));
             Console.ResetColor();
 
             Console.SetCursorPosition(startX + 2, startY + VisibleHeight + 8);
             Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine($"Currently Selected : [{selectedIndex + 1} / {Options.Count}]".PadRight(consoleWidth - 4));
+            Console.ResetColor();
+
+            Console.SetCursorPosition(startX + 2, startY + VisibleHeight + 9);
+            Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.WriteLine("Controls: UP/DOWN Arrow | Enter | ESC".PadRight(consoleWidth - 4));
             Console.ResetColor();
+
         }
 
         private void DrawBorder(int startX, int startY, int width)
@@ -166,6 +173,7 @@ namespace DisaheimMenu
         private void DrawTitle(int startX, int startY, int width)
         {
             string title = "DISAHEIM";
+            Console.Title = title;  
             int leftPadding = startX + (width - title.Length) / 2;
             Console.SetCursorPosition(leftPadding, startY + 1);
             Console.ForegroundColor = ConsoleColor.DarkCyan;
@@ -187,16 +195,20 @@ namespace DisaheimMenu
 
         public static void ShowMessage(string text)
         {
-            Console.Clear();
+            int consoleWidth = 60;
+            int consoleHeight = 25;
+            int startX = (Console.WindowWidth - consoleWidth) / 2;
+            int startY = (Console.WindowHeight - (VisibleHeight + 12)) / 2;
+        
             Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.SetCursorPosition(startX + 18, startY + VisibleHeight + 7);
             foreach (char c in text)
             {
                 Console.Write(c);
                 Thread.Sleep(15);
             }
             Console.ResetColor();
-            Console.WriteLine("\n\nPress any key to return...");
-            Console.ReadKey(true);
+            Thread.Sleep(150);
         }
     }
 }
