@@ -208,7 +208,7 @@ namespace DisaheimMenu
                 Thread.Sleep(15);
             }
             Console.ResetColor();
-            Thread.Sleep(150);
+            Thread.Sleep(300);
         }
     }
 }
